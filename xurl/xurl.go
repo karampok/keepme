@@ -43,6 +43,7 @@ type result struct {
 	Content            string      `json:"content"`
 }
 
+var dryRun = true
 func URLToText() error{
   url:="www.medialens.org/index.php/alerts/alert-archive/2018/868-douma-part-1.html"
 
@@ -56,6 +57,11 @@ func URLToText() error{
 func useFree(u string) error{
   base:="https://txtify.it"
   apiURL,_:=url.JoinPath(base,u)
+  if dryRun {
+    fmt.Printf("curl %s",apiURL)
+    return nil
+  }
+
   tr := &http.Transport{
         TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
     }
